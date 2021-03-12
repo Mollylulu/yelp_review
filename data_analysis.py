@@ -10,6 +10,7 @@ import pandas as pd
 import seaborn as sb
 from tqdm import tqdm
 import matplotlib.pyplot as plt
+from spacy import displacy
 from nltk.stem.snowball import SnowballStemmer
 
 
@@ -47,7 +48,7 @@ def tokenizeReviews(data):
     data.to_csv('./data/token_stemming.csv')
     end_time = time.time()
     print('tokenizing time: {}'.format(end_time-start_time))
-    tokenNumplot()
+    tokenNumPlot()
 
 
 def tokenNumPlot():
@@ -56,6 +57,7 @@ def tokenNumPlot():
     stem_nums = data['stem_nums'].value_counts()
     plt.figure()
     plt.subplot(211)
+    plt.subplots_adjust(hspace=0.7)
     p1 = sb.lineplot(x=token_nums.index, y=token_nums)
     p1.set_xlabel('number of tokens')
     p1.set_ylabel('counts of reviews')
@@ -77,5 +79,5 @@ def starPlot():
     
     
 if __name__ == '__main__':
-    # tokenNumPlot()
-    starPlot()
+    tokenNumPlot()
+    # starPlot()
