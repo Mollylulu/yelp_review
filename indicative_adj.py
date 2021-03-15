@@ -67,15 +67,9 @@ for idx, (word, _) in enumerate(top100_adj_words):
     indicative_dict[word] = relative_entropy[idx]
 
 indicative_dict = sorted(indicative_dict.items(), key=lambda kv: kv[1], reverse=True)
-star1_indicative_adj = {}
+top10_star1_indicative_adj = dict(indicative_dict[:10])
 
-for i, (key, value) in enumerate(indicative_dict):
-    star1_indicative_adj[key] = value
-    i += 1
-    if i == 9:
-        break
-
-indicative_adj = pd.DataFrame.from_dict(star1_indicative_adj, orient='index', columns=['relative_entropy'])
+indicative_adj = pd.DataFrame.from_dict(top10_star1_indicative_adj, orient='index', columns=['relative_entropy'])
 indicative_adj = indicative_adj.reset_index().rename(columns={'index': 'word'})
 print(indicative_adj.head())
 ax = indicative_adj.plot(kind='bar', x='word', y='relative_entropy', title='Top10 Indicative Adj in Star5 Reviews')
