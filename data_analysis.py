@@ -19,7 +19,7 @@ DATA_PATH = './data/sampled_data.csv'
 data = pd.read_csv(DATA_PATH)
 data.rename(columns={'Unnamed: 0':'index'}, inplace=True)
 print(data.head())
-print(data.columns)
+# print(data.columns)
 
 nlp = spacy.load('en_core_web_sm')
 
@@ -55,27 +55,48 @@ def tokenNumPlot():
     data = pd.read_csv('./data/token_stemming.csv')
     token_nums = data['token_nums'].value_counts()
     stem_nums = data['stem_nums'].value_counts()
-    plt.figure()
-    plt.subplot(211)
-    plt.subplots_adjust(hspace=0.7)
-    p1 = sb.lineplot(x=token_nums.index, y=token_nums)
-    p1.set_xlabel('number of tokens')
-    p1.set_ylabel('counts of reviews')
-    plt.subplot(212)
-    p2 = sb.lineplot(x=stem_nums.index, y=stem_nums)
-    p2.set_xlabel('number of tokens with stemming')
-    p2.set_ylabel('counts of reviews')
-    plt.savefig('./data/data_plot.jpg')
-    plt.show()
+    print('Most 5 Common Length of Review without Stemmed: {}'.format(token_nums.head(20).index))
+    print('Most 5 Common Length of Review with Stemmed: {}'.format(stem_nums.head(20).index))
+
+    def draw_dist():
+        ax = sb.distplot(token_nums.index, kde=True, color="#D55E00", label="token num")
+        sb.distplot(stem_nums.index, kde=True, color="#009E73", ax=ax, label='stemmed num')
+        ax.legend()
+        ax.set_xlim(0, 700)
+        ax.set_xlabel('number of tokens/with stemming')
+        # token_dataframe = token_nums.rename_axis('tokens').reset_index(name='counts')
+        plt.legend()
+        plt.savefig('./result/token_stemmed_dist.jpg')
+        plt.show()
+
+    def draw_token_count():
+        plt.figure()
+        ax1 = plt.subplot(211)
+        plt.subplots_adjust(hspace=0.7)
+        ax1.bar(token_nums.index, token_nums.values, facecolor="#F0E442", label='token num', width=5)
+        plt.legend()
+        ax1.set_xlabel('number of tokens')
+        ax1.set_ylabel('counts of review')
+        ax2 = plt.subplot(212)
+        ax2.bar(stem_nums.index, stem_nums.values, facecolor="#009E73", label='stemmed num', width=5)
+        ax2.set_xlabel('number of stemmed tokens')
+        ax2.set_ylabel('counts of review')
+        plt.legend()
+        plt.savefig('./result/token_count.jpg')
+        plt.show()
+
+    draw_dist()
+    # draw_token_count()
 
 
 def starPlot():
     stars = data.value_counts('stars')
     assert isinstance(stars, pd.Series)
-    stars.plot.pie(title='Stars among the data', label='', autopct='%1.1f%%')
-    plt.savefig('./data/stars_pct.jpg')
+    stars.plot.pie(title='Stars among the data', label='', autopct='%1.1f%%',
+                   colors=['#D55E00', '#E69F00', '#56B4E9', '#F0E442', '#009E73', ])
+    plt.savefig('./result/stars_pct.jpg')
     plt.show()
-    print(stars)
+    # print(stars)
     
     
 if __name__ == '__main__':

@@ -71,8 +71,10 @@ top10_star1_indicative_adj = dict(indicative_dict[:10])
 
 indicative_adj = pd.DataFrame.from_dict(top10_star1_indicative_adj, orient='index', columns=['relative_entropy'])
 indicative_adj = indicative_adj.reset_index().rename(columns={'index': 'word'})
-print(indicative_adj.head())
-ax = indicative_adj.plot(kind='bar', x='word', y='relative_entropy', title='Top10 Indicative Adj in Star5 Reviews')
+print(indicative_adj.head(10))
+ax = indicative_adj.plot(kind='bar', x='word', y='relative_entropy',
+                         title='Top10 Indicative Adj in Star5 Reviews', figsize=(12, 11)
+                         )
 
 x_offset = 0.3
 y_offset = 0.0005
