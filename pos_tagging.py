@@ -10,8 +10,8 @@ from tqdm import tqdm
 from spacy import displacy
 import pandas as pd
 import numpy as np
-from pathlib import Path
-import nltk
+import matplotlib.pyplot as plt
+# import nltk
 
 nlp = spacy.load('en_core_web_sm')
 
@@ -64,8 +64,17 @@ def count_reviews():
     adj_common_words = adj_word_freq.most_common(10)
     print('Most 10 NOUN common words in this sampled dataset: ')
     print(noun_common_words)
+    nwords = []
+    count = []
+    for word, c in noun_common_words:
+        nwords.append(word)
+        count.append(c)
+    plt.figure()
+    ax1 = plt.subplot(211)
+    plt.bar(nwords, count)
+    plt.savefig('./result/top10_noun.jpg')
     print('Most 10 ADJ common words in this sampled dataset: ')
-    print(adj_common_words)
+    # print(adj_common_words)
 
     # def write_data(data_type):
     #     file_name = 'top10_'+data_type+'.txt'
