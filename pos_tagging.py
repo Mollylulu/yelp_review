@@ -81,10 +81,11 @@ def draw_top10_freq_words(noun_words_freq, adj_words_freq):
     for word, c in noun_words_freq:
         words.append(word)
         count.append(c)
-    plt.figure()
+    plt.figure(figsize=(10, 20))
     plt.subplot(211)
     plt.bar(words, count, color="#F0E442", label='noun')
     plt.xticks(rotation=90)
+    plt.legend()
     plt.subplot(212)
     words.clear()
     count.clear()
