@@ -60,21 +60,40 @@ def count_reviews():
 
     noun_word_freq = Counter(noun_tokens)
     adj_word_freq = Counter(adj_tokens)
+    import pickle
+    pickle.dump(noun_word_freq, open("./data/noun_word_freq.pkl", "wb"))
+    pickle.dump(adj_word_freq, open("./data/adj_word_freq.pkl", "wb"))
     noun_common_words = noun_word_freq.most_common(10)
     adj_common_words = adj_word_freq.most_common(10)
     print('Most 10 NOUN common words in this sampled dataset: ')
     print(noun_common_words)
-    nwords = []
+    print('Most 10 ADJ common words in this sampled dataset: ')
+    print(adj_common_words)
+    draw_top10_freq_words(noun_common_words, adj_common_words)
+
+
+
+def draw_top10_freq_words(noun_words_freq, adj_words_freq):
+    words = []
     count = []
-    for word, c in noun_common_words:
-        nwords.append(word)
+    for word, c in noun_words_freq:
+        words.append(word)
         count.append(c)
     plt.figure()
-    ax1 = plt.subplot(211)
-    plt.bar(nwords, count)
-    plt.savefig('./result/top10_noun.jpg')
-    print('Most 10 ADJ common words in this sampled dataset: ')
-    # print(adj_common_words)
+    plt.subplot(211)
+    plt.bar(words, count, color="#F0E442")
+    plt.xticks(rotation=90)
+    plt.subplot(212)
+    words.clear()
+    count.clear()
+    for word, c in adj_words_freq:
+        words.append(word)
+        count.append(c)
+    plt.bar(words, count, color="#D55E00")
+    plt.xticks(rotation=90)
+    plt.savefig('./result/top10noun_adj.jpg')
+
+
 
     # def write_data(data_type):
     #     file_name = 'top10_'+data_type+'.txt'
