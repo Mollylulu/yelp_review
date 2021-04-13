@@ -5,15 +5,15 @@
 
 
 import spacy
-import random
+import pickle
 from tqdm import tqdm
 from spacy import displacy
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-# import nltk
 
 nlp = spacy.load('en_core_web_sm')
+
 
 def pos_tagging():
     DATA_PATH = './data/sampled_pos.csv'
@@ -38,33 +38,8 @@ def pos_tagging():
     # pos_tagging_path.open("w", encoding="utf-8").write(pos_tagging_img)
 
 def count_reviews():
-    # from collections import Counter
-    # all_stopwords = spacy.Defaults.stop_words
-    # data = pd.read_csv('./data/sampled_data.csv')
-    # reviews = data['text'].values
-    # print('reviews data type', type(reviews))
-    # total_len = data.shape[0]
-    # print('Total reviews in this 200 business sub-dataset: {}'.format(total_len))
-    # # pro_bar = tqdm(total=total_len)
-    # total_tokens = []
-    # reviews_processed = get_clean_data(reviews)
-    # docs = nlp.pipe(reviews, batch_size=200, n_process=8, disable=["parser", "ner", "textcat"])
-    # noun_tokens = []
-    # adj_tokens = []
-    # for doc in tqdm(docs):
-    #     for token in doc:
-    #         if token.pos_ in('NOUN', 'ADJ'):
-    #             if token.is_alpha and len(token.text)>2 and not token.is_stop:
-    #                 eval(token.pos_.lower()+'_tokens'+'.append(token.text.lower())')
-    #     # pro_bar.update(1)
-    #
-    # noun_word_freq = Counter(noun_tokens)
-    # adj_word_freq = Counter(adj_tokens)
-    import pickle
     noun_word_freq = pickle.load(open("./data/noun_word_freq.pkl", "rb"))
     adj_word_freq = pickle.load(open("./data/adj_word_freq.pkl", "rb"))
-    # pickle.dump(noun_word_freq, open("./data/noun_word_freq.pkl", "wb"))
-    # pickle.dump(adj_word_freq, open("./data/adj_word_freq.pkl", "wb"))
     noun_common_words = noun_word_freq.most_common(10)
     adj_common_words = adj_word_freq.most_common(10)
     print('Most 10 NOUN common words in this sampled dataset: ')
@@ -72,7 +47,6 @@ def count_reviews():
     print('Most 10 ADJ common words in this sampled dataset: ')
     print(adj_common_words)
     draw_top10_freq_words(noun_common_words, adj_common_words)
-
 
 
 def draw_top10_freq_words(noun_words_freq, adj_words_freq):
@@ -99,16 +73,31 @@ def draw_top10_freq_words(noun_words_freq, adj_words_freq):
     plt.savefig('./result/top10noun_adj.jpg')
 
 
+def count_review_preprocessing():
+    from collections import Counter
+    all_stopwords = spacy.Defaults.stop_words
+    data = pd.read_csv('./data/sampled_data.csv')
+    reviews = data['text'].values
+    print('reviews data type', type(reviews))
+    total_len = data.shape[0]
+    print('Total reviews in this 200 business sub-dataset: {}'.format(total_len))
+    # pro_bar = tqdm(total=total_len)
+    total_tokens = []
+    reviews_processed = get_clean_data(reviews)
+    docs = nlp.pipe(reviews, batch_size=200, n_process=8, disable=["parser", "ner", "textcat"])
+    noun_tokens = []
+    adj_tokens = []
+    for doc in tqdm(docs):
+        for token in doc:
+            if token.pos_ in('NOUN', 'ADJ'):
+                if token.is_alpha and len(token.text)>2 and not token.is_stop:
+                    eval(token.pos_.lower()+'_tokens'+'.append(token.text.lower())')
+        # pro_bar.update(1)
 
-    # def write_data(data_type):
-    #     file_name = 'top10_'+data_type+'.txt'
-    #     with open(file_name, 'a') as f:
-    #         for word in eval(data_type+'_common_words'):
-    #             f.write(word)
-    #             f.write('\n')
-    #
-    # write_data(data_type='noun')
-    # write_data(data_type='adj')
+    noun_word_freq = Counter(noun_tokens)
+    adj_word_freq = Counter(adj_tokens)
+    pickle.dump(noun_word_freq, open("./data/noun_word_freq.pkl", "wb"))
+    pickle.dump(adj_word_freq, open("./data/adj_word_freq.pkl", "wb"))
 
 
 def only_keep_words(review_text):
