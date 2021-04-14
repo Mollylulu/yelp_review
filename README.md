@@ -50,19 +50,19 @@ https://pypi.org/project/pyenchant/
 ## Part1
 
 - [x] **Subset Selection**
-  refers to the `randrom_collect.py`
+  refers to the `./part1/randrom_collect.py`
   outcome is `./data/sampled_data.csv`
 
 - [x] **Data Analysis**
 
-  refers to the `data_analysis.py`. It plots the figures about the length distribution among all the data.
+  refers to the .`./part1/data_analysis.py`. It plots the figures about the length distribution among all the data.
 
 - [x] **POS Tagging**
 
-  refers to the `pos_tagging.py`. It tags the reviews.
+  refers to the `./part1/pos_tagging.py`. It tags the reviews.
 
 - [x] **Indicative Adjectives**
-  refers to the `get_top10_adj.py`
+  refers to the `./part1/get_top10_adj.py`
 
   
 
@@ -70,11 +70,11 @@ https://pypi.org/project/pyenchant/
 
 - [x] **Top 5 Review Selection Model**
   
-  refers to the `review_selection_part2.py`
+  refers to the `./part2/review_selection_part2.py`
 
 ## Part3
 
 - [x] **Sentiment Analysis**
 
-  refers to `sentiment_q3.ipynb`
+  refers to `./part3/sentiment_q3.ipynb`
 
