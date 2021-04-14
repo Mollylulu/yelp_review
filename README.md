@@ -36,12 +36,13 @@ pip install -U scikit-learn
 https://scikit-learn.org/stable/install.html
 
 # redability
+## https://pypi.org/project/py-readability-metrics/
 pip install py-readability-metrics
-https://pypi.org/project/py-readability-metrics/
+
 
 # enchant
+## https://pypi.org/project/pyenchant/
 pip install pyenchant
-https://pypi.org/project/pyenchant/
 
 ```
 
