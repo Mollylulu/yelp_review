@@ -2,7 +2,7 @@
 
 # yelp_review
 
-this is a assignment from TEXT MANAGEMENT class, which handles the `yelp review` analysis.
+this is a  TEXT MANAGEMENT assignment from class, which handles the `yelp review` analysis.
 
 # I. Requirement
 
